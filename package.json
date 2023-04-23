@@ -1,7 +1,7 @@
 {
   "name": "idle-beat",
   "version": "0.0.1",
-  "description": "A library to monitor the idle time of the browser user, and make a beat reaction.",
+  "description": "A JavaScript library to monitor the idle time of the browser user, and make a beat reaction.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -29,7 +29,8 @@
     "timer",
     "session",
     "customize event",
-    "Vanilla JS"
+    "Vanilla JS",
+    "browser"
   ],
   "devDependencies": {
     "@babel/core": "^7.18.9",
