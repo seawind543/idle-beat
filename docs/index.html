@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>idle-beat</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            #container {
+                width: 100vw;
+                height: 2048px;
+                background-color: gray;
+            }
+        </style>
+    <script defer src="bundle.js?9f1a8ee4e86be4db4151"></script></head>
+    <body>
+        <div id="info"></div>
+
+        <br />
+        <div>Beat:</div>
+        <table>
+            <tbody>
+                <tr>
+                    <td><label>Lasted active:</label></td>
+                    <td><span id="beat_lasted_active"></span></td>
+                </tr>
+                <tr>
+                    <td><label>Lasted event</label></td>
+                    <td><span id="beat_lasted_event"></span></td>
+                </tr>
+                <tr>
+                    <td><label>Idle time:</label></td>
+                    <td><span id="beat_idle_time"></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+        <div>Active:</div>
+        <table>
+            <tbody>
+                <tr>
+                    <td><label>Lasted active:</label></td>
+                    <td><span id="active_lasted_active"></span></td>
+                </tr>
+                <tr>
+                    <td><label>Lasted event</label></td>
+                    <td><span id="active_lasted_event"></span></td>
+                </tr>
+                <tr>
+                    <td><label>Idle time:</label></td>
+                    <td><span id="active_idle_time"></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="controler">
+            <input type="text" autofocus="true" />
+            <br />
+            <button id="button">Click me</button>  
+        </div>
+
+        <div id="container">
+            <span>Scroll the page</span>
+        </div>
+    </body>
+</html>
