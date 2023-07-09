@@ -15,4 +15,7 @@ export interface CallbackRecord {
 export interface BeatCallback {
     (idleTime: Milliseconds): void;
 }
+export interface ActiveCallback {
+    (event: Event): void;
+}
 //# sourceMappingURL=types.d.ts.map
