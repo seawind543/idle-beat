@@ -8,6 +8,7 @@ import type {
   Callback,
   CallbackRecord,
   BeatCallback,
+  ActiveCallback,
 } from './types';
 
 type State = {
@@ -35,6 +36,8 @@ class IdleBeat {
 
   #beatCallbacks: Set<BeatCallback>;
 
+  #activeCallbacks: Set<ActiveCallback>;
+
   constructor(options?: Config) {
     this.#settings = { ...DEFAULT_CONFIG, ...options };
 
@@ -44,6 +47,8 @@ class IdleBeat {
 
     this.#beatTimeoutId = -1;
     this.#beatCallbacks = new Set();
+
+    this.#activeCallbacks = new Set();
 
     this.#debounceHandleActive = _debounce(
       this.#handleActive.bind(this),
@@ -129,6 +134,18 @@ class IdleBeat {
     this.#beatCallbacks.delete(callback);
   }
 
+  onActive(callback: ActiveCallback) {
+    if (this.#activeCallbacks.has(callback)) {
+      return;
+    }
+
+    this.#activeCallbacks.add(callback);
+  }
+
+  offActive(callback: ActiveCallback) {
+    this.#activeCallbacks.delete(callback);
+  }
+
   /** **************
    * External Getters
    *************** */
@@ -171,6 +188,8 @@ class IdleBeat {
       lastEvent: e,
     };
     this.#resetTimers();
+
+    this.#activeCallbacks.forEach((callback) => callback(e));
   }
 
   #debounceHandleActive: (e: Event) => void;

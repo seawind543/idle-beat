@@ -71,6 +71,17 @@ function updateIdleInfo(
   );
 }
 
+function handleActive(event: Event) {
+  const { 
+    lastActive, 
+    lastEvent,
+  } = idleBeat.state;
+
+  setInnerText('active_lasted_active',  `${new Date(lastActive)}; Timestamp: ${lastActive};`);
+  setInnerText('active_lasted_event', `${event.type}; ${lastEvent?.type}`);
+  setInnerText('active_idle_time',`${idleBeat.idleTime} Milliseconds; on Active`);
+}
+
 function handleIdleBeat(idleTime: number /* Milliseconds */) {
   const { 
     lastActive, 
@@ -104,6 +115,10 @@ function main() {
 
   // Set idle beat handler
   idleBeat.onBeat(handleIdleBeat);
+
+
+  // Set Active handler
+  idleBeat.onActive(handleActive);
 
   // Set to different idleBeat instance will be accept
   idleBeat2.onIdle(10, handleIdle2);
