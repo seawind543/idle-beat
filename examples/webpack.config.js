@@ -9,14 +9,11 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../docs'),
     filename: 'bundle.js?[fullhash]',
+    clean: true, // Clean the output directory before emit.
   },
   optimization: {
     moduleIds: 'named',
-    minimize: true,
-    minimizer: [
-      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
-      `...`, // keep js file minimize
-    ],
+    minimize: false,
     emitOnErrors: false,
   },
   module: {
