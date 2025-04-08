@@ -1,4 +1,4 @@
-import type { Milliseconds, Seconds, Config, Callback, BeatCallback } from './types';
+import type { Timestamp, Milliseconds, Seconds, Config, Callback, BeatCallback } from './types';
 declare class IdleBeat {
     #private;
     constructor(options?: Config);
@@ -8,7 +8,7 @@ declare class IdleBeat {
     onBeat(callback: BeatCallback): void;
     offBeat(callback: BeatCallback): void;
     get state(): {
-        lastActive: number;
+        lastActive: Timestamp;
         lastEvent: Event | null;
     };
     get idleTime(): Milliseconds;
