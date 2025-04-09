@@ -50,7 +50,7 @@ class IdleBeat {
       this.#settings.debounce,
       {
         leading: true,
-      }
+      },
     );
 
     this.restart();
@@ -184,11 +184,11 @@ class IdleBeat {
   #setTimeout(
     callback: Callback,
     calculatedTimeout: Milliseconds,
-    idleSetting: Seconds
+    idleSetting: Seconds,
   ): number {
     return window.setTimeout(
       () => this.#handleOnIdle(callback, idleSetting),
-      calculatedTimeout
+      calculatedTimeout,
     );
   }
 
@@ -229,7 +229,7 @@ class IdleBeat {
     clearInterval(this.#beatTimeoutId);
     this.#beatTimeoutId = window.setInterval(
       () => this.#handleBeat(this.#state.lastActive),
-      this.#settings.beat * 1e3
+      this.#settings.beat * 1e3,
     );
   }
 }

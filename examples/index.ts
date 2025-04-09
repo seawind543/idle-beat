@@ -1,9 +1,9 @@
 import IdleBeat from '../src/index';
 
-const intlNumberFormat = new Intl.NumberFormat("en-US");
+const intlNumberFormat = new Intl.NumberFormat('en-US');
 
 const idleBeat = new IdleBeat({
-  beat: 10
+  beat: 10,
 });
 
 const idleBeat2 = new IdleBeat({
@@ -12,10 +12,10 @@ const idleBeat2 = new IdleBeat({
 
 function getBoardElement(infoBoardId: string, boardContainerId: string) {
   let infoBoard = document.getElementById(infoBoardId);
-  
+
   if (!infoBoard) {
     let boardContainer = document.getElementById(boardContainerId);
-    if(!boardContainer) {
+    if (!boardContainer) {
       boardContainer = document.createElement('div');
       boardContainer.setAttribute('id', boardContainerId);
       document.getElementById('info')?.append(boardContainer);
@@ -35,8 +35,8 @@ function showInfo(
   ...args: string[]
 ) {
   let html = '';
-  args.forEach(arg => {
-    html +=  `<div>${arg}</div>`;
+  args.forEach((arg) => {
+    html += `<div>${arg}</div>`;
   });
   html += '<br />';
 
@@ -51,47 +51,51 @@ function setInnerText(elmId: string, text: string) {
 }
 
 function updateIdleInfo(
-  callbackName: string, 
-  passedTime: number, // Milliseconds, 
-  idleSetting: number, //Seconds
+  callbackName: string,
+  passedTime: number, // Milliseconds,
+  idleSetting: number, // Seconds
 ) {
-  const { 
-    lastActive, 
-    lastEvent,
-  } = idleBeat.state;
-  
-  
+  const { lastActive, lastEvent } = idleBeat.state;
+
   showInfo(
     callbackName,
-    `${callbackName}_${idleSetting}`, 
+    `${callbackName}_${idleSetting}`,
     `Callback <strong>${callbackName}</strong> on idle setting: <strong>${intlNumberFormat.format(idleSetting)} Seconds</strong>`,
     `<strong>Lasted active</strong>: ${new Date(lastActive)}; Timestamp: ${lastActive}`,
     `<strong>Lasted event</strong>: ${lastEvent ? lastEvent.type : null}`,
-    `<strong>Idle time</strong>: ${intlNumberFormat.format(passedTime)} Milliseconds;`
+    `<strong>Idle time</strong>: ${intlNumberFormat.format(passedTime)} Milliseconds;`,
   );
 }
 
 function handleIdleBeat(idleTime: number /* Milliseconds */) {
-  const { 
-    lastActive, 
-    lastEvent,
-  } = idleBeat.state;
+  const { lastActive, lastEvent } = idleBeat.state;
 
-  setInnerText('beat_lasted_active', `${new Date(lastActive)}; Timestamp: ${lastActive};`);
+  setInnerText(
+    'beat_lasted_active',
+    `${new Date(lastActive)}; Timestamp: ${lastActive};`,
+  );
   setInnerText('beat_lasted_event', `${lastEvent ? lastEvent.type : null}`);
-  setInnerText('beat_idle_time',`${intlNumberFormat.format(idleTime)} Milliseconds; onBeat`);
+  setInnerText(
+    'beat_idle_time',
+    `${intlNumberFormat.format(idleTime)} Milliseconds; onBeat`,
+  );
 }
 
-function handleIdle(idleTime: number /* Milliseconds */, idleSetting: number /* Seconds */) {
+function handleIdle(
+  idleTime: number /* Milliseconds */,
+  idleSetting: number /* Seconds */,
+) {
   updateIdleInfo('handleIdle', idleTime, idleSetting);
 }
 
-function handleIdle2(idleTime: number /* Milliseconds */, idleSetting: number /* Seconds */) {
+function handleIdle2(
+  idleTime: number /* Milliseconds */,
+  idleSetting: number /* Seconds */,
+) {
   updateIdleInfo('handleIdle2', idleTime, idleSetting);
 }
 
 function main() {
-
   idleBeat.onIdle(10, handleIdle);
   // Set the same handler to the same idle-time will be ignore
   idleBeat.onIdle(10, handleIdle);
