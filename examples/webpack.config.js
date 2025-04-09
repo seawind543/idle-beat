@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -35,6 +36,9 @@ module.exports = {
       debug: true,
     }),
     new webpack.NoEmitOnErrorsPlugin(),
+    new ESLintPlugin({
+      eslintPath: require.resolve('eslint'),
+    }),
     new HtmlWebpackPlugin({
       template: 'index.html',
       filename: '../docs/index.html',

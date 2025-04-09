@@ -8,7 +8,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts'],
       },
     },
   },
@@ -26,6 +26,7 @@ module.exports = {
     'no-shadow': 0,
     // Turn off, since we are not write react here
     'react/jsx-filename-extension': 0,
+    'import/extensions': 'off'
   },
   // https://eslint.org/docs/user-guide/configuring/configuration-files#configuration-based-on-glob-patterns
   overrides: [
@@ -34,9 +35,9 @@ module.exports = {
      * Following for typescript .ts only
      */
     {
-      files: ['src/**/*.ts'],
+      files: ['{src, examples}/**/*.ts'],
       extends: [
-        'airbnb-typescript',
+        'airbnb-typescript/base',
         'plugin:prettier/recommended',
         'plugin:@typescript-eslint/recommended',
       ],
@@ -50,10 +51,6 @@ module.exports = {
         project: './tsconfig.json',
       },
       plugins: ['@babel', 'prettier', '@typescript-eslint'],
-      rules: {
-        // Turn off react, since we are not write react here
-        'react/jsx-filename-extension': 0,
-      },
     },
   ],
 };
