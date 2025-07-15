@@ -40,10 +40,10 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@babel/core": "^7.27.1",
-    "@babel/eslint-parser": "^7.27.1",
+    "@babel/core": "^7.28.0",
+    "@babel/eslint-parser": "^7.28.0",
     "@babel/eslint-plugin": "^7.27.1",
-    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.17",
