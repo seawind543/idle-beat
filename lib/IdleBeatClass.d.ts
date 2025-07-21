@@ -14,4 +14,4 @@ declare class IdleBeat {
     get idleTime(): Milliseconds;
 }
 export default IdleBeat;
-//# sourceMappingURL=IdleBeat.d.ts.map
+//# sourceMappingURL=IdleBeatClass.d.ts.map

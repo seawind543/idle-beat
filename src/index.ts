@@ -1,7 +1,7 @@
-import IdleBeat from './IdleBeat';
+import IdleBeatClass from './IdleBeatClass';
 
 export { DEFAULT_CONFIG } from './constants';
 
 export type { Config, Callback, BeatCallback } from './types';
 
-export default IdleBeat;
+export default IdleBeatClass;
