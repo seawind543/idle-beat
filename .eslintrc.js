@@ -26,7 +26,7 @@ module.exports = {
     'no-shadow': 0,
     // Turn off, since we are not write react here
     'react/jsx-filename-extension': 0,
-    'import/extensions': 'off'
+    'import/extensions': 'off',
   },
   // https://eslint.org/docs/user-guide/configuring/configuration-files#configuration-based-on-glob-patterns
   overrides: [
@@ -48,7 +48,7 @@ module.exports = {
         babelOptions: {
           configFile: './babel.config.js',
         },
-        project: './tsconfig.json',
+        project: true, // take the closest tsconfig.json
       },
       plugins: ['@babel', 'prettier', '@typescript-eslint'],
     },
