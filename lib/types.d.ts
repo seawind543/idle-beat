@@ -1,18 +1,22 @@
 export type Timestamp = number;
 export type Milliseconds = number;
 export type Seconds = number;
+export interface State {
+    lastActive: Timestamp;
+    lastEventType: Event['type'] | null;
+    isIdle: boolean;
+    isBeating: boolean;
+}
 export interface Config {
-    events?: Event['type'][];
+    id?: string;
+    idleEventName?: string;
+    activeEventName?: string;
     beat?: Seconds;
-    debounce?: Milliseconds;
+    target?: EventTarget;
+    events?: Event['type'][];
 }
-export interface Callback {
-    (idleTime: Milliseconds, idleSetting: Seconds): void;
-}
-export interface CallbackRecord {
-    timeoutId: number;
-}
-export interface BeatCallback {
-    (idleTime: Milliseconds): void;
-}
+export type IdleBeatEvent = CustomEvent<{
+    state: State;
+    config: Required<Config>;
+}>;
 //# sourceMappingURL=types.d.ts.map

@@ -1,116 +1,245 @@
-import IdleBeat from '../src/index';
+/* eslint no-console: 0 */
 
-const intlNumberFormat = new Intl.NumberFormat('en-US');
+// import styles
+import './styles/main.css';
+import './styles/switch.css';
 
-const idleBeat = new IdleBeat({
-  beat: 10,
-});
+import idleBeat, { DEFAULT_CONFIG, type IdleBeatEvent } from '../src/index';
 
-const idleBeat2 = new IdleBeat({
-  events: ['keydown'],
-});
+import writeToTextarea from './utils/writeToTextarea';
+import updateStateInfo from './utils/updateStateInfo';
+import updateConfigInfo from './utils/updateConfigInfo';
+import applyCustomizeSettings from './utils/applyCustomizeSettings';
+import type { IdleBeatType } from './types';
 
-function getBoardElement(infoBoardId: string, boardContainerId: string) {
-  let infoBoard = document.getElementById(infoBoardId);
+const IDLE_TIMEOUT = 30; // 30 seconds
 
-  if (!infoBoard) {
-    let boardContainer = document.getElementById(boardContainerId);
-    if (!boardContainer) {
-      boardContainer = document.createElement('div');
-      boardContainer.setAttribute('id', boardContainerId);
-      document.getElementById('info')?.append(boardContainer);
-    }
+/**
+ * Initialize the default idleBeater instance
+ * This will create and start a idleBeater with the default settings.
+ * The idleBeater will monitor the user activity and dispatch custom events
+ * when the user becomes active or idle.
+ *
+ * @returns {IdleBeatType} - The default idleBeater instance
+ */
+function initDefaultIdleBeater() {
+  /**
+   * Create and start a idleBeater with the default settings
+   */
+  const idleBeater = idleBeat();
 
-    infoBoard = document.createElement('div');
-    infoBoard.setAttribute('id', infoBoardId);
-    boardContainer.append(infoBoard);
-  }
+  /**
+   * Print the state and settings of the idleBeater
+   */
+  updateStateInfo(idleBeater);
+  updateConfigInfo(idleBeater);
 
-  return infoBoard;
+  /**
+   * Bind event listeners to the idleBeater events
+   * These events are CustomEvents that are dispatched by the idleBeater
+   * when the user becomes active or idle.
+   */
+  const activeHandler = (e: IdleBeatEvent) => {
+    updateStateInfo(idleBeater);
+    console.log('idleBeater active', e.detail); // Mapping to the detail of the new CustomEvent(eventName, { detail }
+
+    writeToTextarea(
+      'default-events-info',
+      `Last active ${e.detail.state.lastActive}, ${e.detail.state.lastEventType}\n`,
+    );
+  };
+  // @ts-expect-error addEventListener handle CustomEvent
+  document.addEventListener(DEFAULT_CONFIG.activeEventName, activeHandler);
+
+  // @ts-expect-error addEventListener handle CustomEvent
+  document.addEventListener(
+    DEFAULT_CONFIG.idleEventName,
+    (e: IdleBeatEvent) => {
+      updateStateInfo(idleBeater);
+      console.log('idleBeater idle', e.detail); // Mapping to the detail of the new CustomEvent(eventName, { detail }
+
+      const elapsedDate = (Date.now() - e.detail.state.lastActive) / 1e3;
+      writeToTextarea(
+        'default-events-info',
+        `\nisIdle ${e.detail.state.isIdle}\n Elapsed Idle time: ${elapsedDate}\n since ${e.detail.state.lastActive}\n >= IDLE_TIMEOUT? ${elapsedDate >= IDLE_TIMEOUT}\n`,
+      );
+      // console.log('End idleBeater idle');
+    },
+  );
+
+  return idleBeater;
 }
 
-function showInfo(
-  boardContainerId: string,
-  infoBoardId: string,
-  ...args: string[]
-) {
-  let html = '';
-  args.forEach((arg) => {
-    html += `<div>${arg}</div>`;
+/**
+ * Initialize a customized idleBeater instance
+ * This will create a idleBeater with custom settings.
+ * The custom settings will override the default settings and be used to create a new idleBeater instance.
+ * The custom settings will not affect the default idleBeater instance.
+ *
+ * @returns {IdleBeatType} - The customized idleBeater instance
+ */
+function initCustomizeIdleBeater() {
+  const CUSTOMIZE_EVENT_NAMES = {
+    ACTIVE: 'myActive', // Custom event name for active
+    IDLE: 'myIdle', // Custom event name for idle
+  };
+  const customizeIdleBeater = idleBeat({
+    id: 'customized', // For identify the instance purpose
+
+    beat: 15, // 15 seconds
+    target: document.querySelector('#customized-monitor-area') || document, // Monitor a specific area or the whole document
+    idleEventName: CUSTOMIZE_EVENT_NAMES.IDLE, // Custom event name for idle
+    activeEventName: CUSTOMIZE_EVENT_NAMES.ACTIVE, // Custom event name for active
+    events: [
+      'mousemove',
+      'click',
+      'scroll',
+      'keydown',
+      'resize',
+      'visibilitychange',
+    ],
   });
-  html += '<br />';
 
-  getBoardElement(infoBoardId, boardContainerId).innerHTML = html;
-}
+  /**
+   * Print the state and settings of the customizeIdleBeater
+   */
+  updateStateInfo(customizeIdleBeater);
+  updateConfigInfo(customizeIdleBeater);
 
-function setInnerText(elmId: string, text: string) {
-  const targetEl = document.getElementById(elmId);
-  if (targetEl) {
-    targetEl.innerText = text;
-  }
-}
+  const customizedConfig = customizeIdleBeater.getConfig();
 
-function updateIdleInfo(
-  callbackName: string,
-  passedTime: number, // Milliseconds,
-  idleSetting: number, // Seconds
-) {
-  const { lastActive, lastEvent } = idleBeat.state;
-
-  showInfo(
-    callbackName,
-    `${callbackName}_${idleSetting}`,
-    `Callback <strong>${callbackName}</strong> on idle setting: <strong>${intlNumberFormat.format(idleSetting)} Seconds</strong>`,
-    `<strong>Lasted active</strong>: ${new Date(lastActive)}; Timestamp: ${lastActive}`,
-    `<strong>Lasted event</strong>: ${lastEvent ? lastEvent.type : null}`,
-    `<strong>Idle time</strong>: ${intlNumberFormat.format(passedTime)} Milliseconds;`,
+  /**
+   * Bind event listeners to the customizeIdleBeater events
+   * These events are CustomEvents that are dispatched by the customizeIdleBeater
+   * when the user becomes active or idle.
+   * The event names are customized to 'active2' and 'idle2' in the settings.
+   * This allows you to have multiple idleBeater instances with different event names.
+   * The customizeIdleBeater instance will not affect the default idleBeater instance.
+   */
+  const customerActiveHandler = (e: IdleBeatEvent) => {
+    updateStateInfo(customizeIdleBeater);
+    console.log('customizeIdleBeater active', e.detail); // Mapping to the detail of the new CustomEvent(eventName, { detail }
+    writeToTextarea(
+      'customized-events-info',
+      `Last active ${e.detail.state.lastActive}, ${e.detail.state.lastEventType}\n`,
+    );
+  };
+  // @ts-expect-error addEventListener handle CustomEvent
+  document.addEventListener(
+    customizedConfig.activeEventName,
+    customerActiveHandler,
   );
-}
 
-function handleIdleBeat(idleTime: number /* Milliseconds */) {
-  const { lastActive, lastEvent } = idleBeat.state;
+  // @ts-expect-error addEventListener handle CustomEvent
+  document.addEventListener(
+    customizedConfig.idleEventName,
+    (e: IdleBeatEvent) => {
+      console.log('customizeIdleBeater idle2', e.detail); // Mapping to the detail of the new CustomEvent(eventName, { detail }
+      updateStateInfo(customizeIdleBeater);
 
-  setInnerText(
-    'beat_lasted_active',
-    `${new Date(lastActive)}; Timestamp: ${lastActive};`,
+      const elapsedDate = (Date.now() - e.detail.state.lastActive) / 1e3;
+      writeToTextarea(
+        'customized-events-info',
+        `\nisIdle ${e.detail.state.isIdle}\n Elapsed Idle time: ${elapsedDate}\n since ${e.detail.state.lastActive}\n >= IDLE_TIMEOUT? ${elapsedDate >= IDLE_TIMEOUT}\n`,
+      );
+    },
   );
-  setInnerText('beat_lasted_event', `${lastEvent ? lastEvent.type : null}`);
-  setInnerText(
-    'beat_idle_time',
-    `${intlNumberFormat.format(idleTime)} Milliseconds; onBeat`,
-  );
+
+  return customizeIdleBeater;
 }
 
-function handleIdle(
-  idleTime: number /* Milliseconds */,
-  idleSetting: number /* Seconds */,
+/**
+ * Initialize the idleBeater switch watch
+ * This will bind the event listeners to the toggle switches
+ * to start or stop the idleBeater instances.
+ *
+ * @param idleBeater - The default idleBeater instance
+ * @param customizeIdleBeater - The customized idleBeater instance
+ */
+function initIdleBeaterSwitchWatch(
+  idleBeater: IdleBeatType,
+  customizeIdleBeater: IdleBeatType,
 ) {
-  updateIdleInfo('handleIdle', idleTime, idleSetting);
-}
+  // Bind the toggle switch for the default idleBeater
+  // This will start or stop the idleBeater instance based on the toggle state
+  document
+    .getElementById('default--idle-beat-toggle')
+    ?.addEventListener('change', (e) => {
+      const isChecked = (e.target as HTMLInputElement).checked;
 
-function handleIdle2(
-  idleTime: number /* Milliseconds */,
-  idleSetting: number /* Seconds */,
-) {
-  updateIdleInfo('handleIdle2', idleTime, idleSetting);
+      console.log('Toggle idleBeater', isChecked);
+
+      if (isChecked) {
+        idleBeater.start();
+      } else {
+        idleBeater.stop();
+        console.log('idleBeater.stop()');
+      }
+
+      updateStateInfo(idleBeater);
+    });
+
+  // Bind the toggle switch for the customized idleBeater
+  // This will start or stop the customizeIdleBeater instance based on the toggle state
+  document
+    .getElementById('customized--idle-beat-toggle')
+    ?.addEventListener('change', (e) => {
+      const isChecked = (e.target as HTMLInputElement).checked;
+
+      const fields = document.querySelectorAll(
+        '.config-group .updatable-in-example',
+      );
+      fields.forEach((field) => {
+        // Disable the input fields when the toggle is on
+        // This prevents the user from changing the settings while the idleBeater is running
+        // eslint-disable-next-line no-param-reassign
+        (field as HTMLInputElement | HTMLTextAreaElement).disabled = isChecked;
+      });
+
+      if (isChecked) {
+        applyCustomizeSettings(customizeIdleBeater);
+
+        console.log(
+          'Applied new settings to customizeIdleBeater',
+          customizeIdleBeater.getConfig(),
+        );
+
+        customizeIdleBeater.start();
+      } else {
+        customizeIdleBeater.stop();
+      }
+
+      updateStateInfo(customizeIdleBeater);
+    });
 }
 
 function main() {
-  idleBeat.onIdle(10, handleIdle);
-  // Set the same handler to the same idle-time will be ignore
-  idleBeat.onIdle(10, handleIdle);
+  const idleBeater = initDefaultIdleBeater();
+  idleBeater.start();
 
-  // Set the same handler to another idle-time will be accept
-  idleBeat.onIdle(6, handleIdle);
+  const customizeIdleBeater = initCustomizeIdleBeater();
 
-  // Set different handler to the same idle-time will be accept
-  idleBeat.onIdle(10, handleIdle2);
+  console.log(
+    'customizeIdleBeater State',
+    customizeIdleBeater.getState(),
+    'Config',
+    customizeIdleBeater.getConfig(),
+  );
 
-  // Set idle beat handler
-  idleBeat.onBeat(handleIdleBeat);
+  console.warn('Try to start idleBeater again without stopping it first');
+  idleBeater.start(); // This should be a no-op since idleBeater is already running
 
-  // Set to different idleBeat instance will be accept
-  idleBeat2.onIdle(10, handleIdle2);
+  console.log(
+    'idleBeat State',
+    idleBeater.getState(),
+    'Config',
+    idleBeater.getConfig(),
+  );
+
+  initIdleBeaterSwitchWatch(idleBeater, customizeIdleBeater);
+
+  updateStateInfo(idleBeater);
+  updateStateInfo(customizeIdleBeater);
 }
 
 main();

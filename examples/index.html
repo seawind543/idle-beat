@@ -6,63 +6,114 @@
         <title>idle-beat</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            #container {
-                width: 100vw;
-                height: 2048px;
-                background-color: gray;
-            }
-        </style>
     </head>
     <body>
-        <div id="info"></div>
+      <h2>Idle Beat</h2>
 
-        <br />
-        <div>Beat:</div>
-        <table>
-            <tbody>
-                <tr>
-                    <td><label>Lasted active:</label></td>
-                    <td><span id="beat_lasted_active"></span></td>
-                </tr>
-                <tr>
-                    <td><label>Lasted event</label></td>
-                    <td><span id="beat_lasted_event"></span></td>
-                </tr>
-                <tr>
-                    <td><label>Idle time:</label></td>
-                    <td><span id="beat_idle_time"></span></td>
-                </tr>
-            </tbody>
-        </table>
+      <div class="container">
 
-        <br />
-        <div>Active:</div>
-        <table>
-            <tbody>
-                <tr>
-                    <td><label>Lasted active:</label></td>
-                    <td><span id="active_lasted_active"></span></td>
-                </tr>
-                <tr>
-                    <td><label>Lasted event</label></td>
-                    <td><span id="active_lasted_event"></span></td>
-                </tr>
-                <tr>
-                    <td><label>Idle time:</label></td>
-                    <td><span id="active_idle_time"></span></td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Default Panel -->
+        <div class="panel">
+          <div class="panel-header">Default Config</div>
+          
+          <div class="panel-body">
 
-        <div id="controler">
-            <input type="text" autofocus="true" />
-            <br />
-            <button id="button">Click me</button>  
+            <div class="panel-left">
+              <div class="toggle">
+                <label>IdleBeat On/Off:</label>
+                <!-- Rounded switch -->
+                <label class="switch">
+                    <input type="checkbox" checked id="default--idle-beat-toggle">
+                    <span class="slider round"></span>
+                </label>
+              </div>
+
+              <div class="state-info">
+                <strong>State:</strong>
+                <pre id="default-state"></pre>
+              </div>
+
+              <div class="config">
+                <strong>Config</strong>
+                <pre id="default-config"></pre>
+              </div>
+            </div>
+
+            <div class="panel-right">
+              <div class="log-area">
+                <label>Logs:</label>
+                <textarea id="default-events-info" class="board" readonly placeholder="N/A"></textarea>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div id="container">
-            <span>Scroll the page</span>
+        <!-- Customized Panel -->
+        <div class="panel">
+          <div class="panel-header">Customized Config</div>
+
+          <div class="panel-body">
+            <div class="panel-left">
+              <div class="toggle">
+                <label>IdleBeat On/Off:</label>
+                <label class="switch">
+                    <input type="checkbox" id="customized--idle-beat-toggle">
+                    <span class="slider round"></span>
+                </label>
+              </div>
+
+              <div class="state-info">
+                <strong>State:</strong>
+                <pre id="customized-state"></pre>
+              </div>
+
+              <div class="config">
+                <strong>Config</strong>
+                <div class="config-group">
+                  <label>Instance id:</label>
+                  <input type="text" id="cfg-id" disabled>
+                </div>
+                <div class="config-group">
+                  <label>Idle Event Name:</label>
+                  <input type="text" id="cfg-idle-event-name" disabled>
+                </div>
+                <div class="config-group">
+                  <label>Active Event Name:</label>
+                  <input type="text" id="cfg-active-event-name" disabled>
+                </div>
+                <div class="config-group">
+                  <label>Beat (seconds):</label>
+                  <input type="number" id="cfg-beat" class="updatable-in-example" placeholder="10">
+                </div>
+                <div class="config-group">
+                  <label>The monitoring target:</label>
+                  <input type="text" id="cfg-target" value="#customized-monitor-area" disabled>
+                </div>
+                <div class="config-group">
+                  <label>The events to monitoring:</label>
+                  <textarea id="cfg-events" class="updatable-in-example" placeholder='["mousemove","keydown"]'></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-right">
+              <div id="customized-monitor-area" class="monitor-area">
+                <label>Customized monitor area:</label>
+                <input type="text" />
+                <input type="checkbox" />
+                <br />
+                <input type="button" value="A button" />
+                <textarea></textarea>
+              </div>
+
+              <div class="log-area">
+                <label>Logs:</label>
+                <textarea id="customized-events-info" class="board" placeholder="N/A"></textarea>
+              </div>
+            </div>
+          </div>
         </div>
+
+      </div>
     </body>
 </html>
