@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "prepublish": "yarn run lint && yarn run test && yarn run build",
-    "build": "yarn run build:clean && yarn run build:webpack && yarn run build:examples",
+    "build": "yarn run build:webpack && yarn run build:examples",
     "build:clean": "rm -rf lib/*",
     "build:webpack": "webpack",
     "build:examples": "cd examples; webpack",
