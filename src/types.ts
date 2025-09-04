@@ -1,6 +1,5 @@
-export type Timestamp = number; // milliseconds
-export type Milliseconds = number;
-export type Seconds = number;
+type Timestamp = number; // milliseconds
+type Seconds = number;
 
 /**
  * The state of the idle beat instance.
@@ -18,8 +17,14 @@ export interface State {
    */
   lastEventType: Event['type'] | null;
 
+  /**
+   * Whether the user is currently idle
+   */
   isIdle: boolean;
 
+  /*
+   * Whether the idle beat is currently running
+   */
   isBeating: boolean;
 }
 

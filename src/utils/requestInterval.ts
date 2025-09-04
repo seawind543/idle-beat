@@ -1,4 +1,5 @@
-import type { Timestamp, Milliseconds } from '../types';
+type Milliseconds = number; // milliseconds
+type Timestamp = number; // milliseconds
 
 /**
  * Implement setInterval via window.requestAnimationFrame

@@ -1,6 +1,5 @@
-export type Timestamp = number;
-export type Milliseconds = number;
-export type Seconds = number;
+type Timestamp = number;
+type Seconds = number;
 export interface State {
     lastActive: Timestamp;
     lastEventType: Event['type'] | null;
@@ -19,4 +18,5 @@ export type IdleBeatEvent = CustomEvent<{
     state: State;
     config: Required<Config>;
 }>;
+export {};
 //# sourceMappingURL=types.d.ts.map
