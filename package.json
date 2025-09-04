@@ -1,7 +1,7 @@
 {
   "name": "idle-beat",
   "version": "0.0.1",
-  "description": "A JavaScript library to monitor the idle time of the browser user, and make a beat reaction.",
+  "description": "A lightweight, highly configurable browser idle detection library that monitors user activity with a configurable beating interval and dispatches custom active/idle events.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
