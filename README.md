@@ -1,10 +1,8 @@
 [![NPM](https://nodei.co/npm/idle-beat.png?downloads=true&stars=true)](https://www.npmjs.com/package/idle-beat/)
 
-`idle-beat` — Lightweight, highly configurable browser user idle detection utility with custom event support.
-
 # idle-beat
 
-`idle-beat` is a lightweight and highly configurable utility for detecting user idle status in browser environments. It monitors user activity and dispatches custom events when the user becomes idle or active. Easily integrate it into your web application to enhance security and user interaction. It fully supports custom event names, target elements, and idle intervals.
+`idle-beat` is a lightweight, highly configurable browser idle detection library that monitors user activity with a configurable beating interval and dispatches custom active and idle events. Easily integrated into web applications, it supports custom event names, target elements, and flexible idle timing to enhance security and user interaction.
 
 ## Features
 

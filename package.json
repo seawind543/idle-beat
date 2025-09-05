@@ -1,7 +1,7 @@
 {
   "name": "idle-beat",
   "version": "0.0.1",
-  "description": "A lightweight, highly configurable browser idle detection library that monitors user activity with a configurable beating interval and dispatches custom active/idle events.",
+  "description": "A lightweight, configurable browser idle detection library with beating intervals and custom active/idle event support.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
