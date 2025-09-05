@@ -1,7 +1,7 @@
 {
   "name": "idle-beat",
   "version": "0.0.1",
-  "description": "A JavaScript library to monitor the idle time of the browser user, and make a beat reaction.",
+  "description": "A lightweight, configurable browser idle detection library with beating intervals and custom active/idle event support.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "prepublish": "yarn run lint && yarn run test && yarn run build",
-    "build": "yarn run build:clean && yarn run build:webpack && yarn run build:examples",
+    "build": "yarn run build:webpack && yarn run build:examples",
     "build:clean": "rm -rf lib/*",
     "build:webpack": "webpack",
     "build:examples": "cd examples; webpack",
@@ -36,9 +36,6 @@
     "Vanilla JS",
     "browser"
   ],
-  "dependencies": {
-    "lodash": "^4.17.21"
-  },
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/eslint-parser": "^7.28.0",
@@ -46,10 +43,11 @@
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@types/jest": "^30.0.0",
-    "@types/lodash": "^4.17.20",
+    "@types/lodash.debounce": "^4.0.9",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
@@ -59,11 +57,16 @@
     "eslint-webpack-plugin": "^4.2.0",
     "html-webpack-plugin": "^5.6.3",
     "jest": "^30.0.4",
+    "jest-environment-jsdom": "^30.0.4",
+    "lodash.debounce": "^4.0.8",
     "prettier": "^3.6.2",
+    "style-loader": "^4.0.0",
     "ts-loader": "^9.5.2",
     "typescript": "^5.8.3",
     "webpack": "^5.100.2",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2"
+  },
+  "dependencies": {
   }
 }

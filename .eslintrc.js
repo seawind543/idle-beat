@@ -48,7 +48,7 @@ module.exports = {
         babelOptions: {
           configFile: './babel.config.js',
         },
-        project: true, // take the closest tsconfig.json
+        project: './tsconfig.json', // take the root tsconfig.json
       },
       plugins: ['@babel', 'prettier', '@typescript-eslint'],
     },

@@ -1,33 +1,73 @@
-export type Timestamp = number; // milliseconds
-export type Milliseconds = number;
-export type Seconds = number;
+type Timestamp = number; // milliseconds
+type Seconds = number;
 
-export interface Config {
+/**
+ * The state of the idle beat instance.
+ * This state will be updated when the idle beat instance is active or idle.
+ * It will also be used to emit the idle and active events.
+ */
+export interface State {
   /**
-   * Monitor on the event types (Set active when event been trigger)
+   * The timestamp of the latest active event
    */
-  events?: Event['type'][];
+  lastActive: Timestamp;
 
   /**
-   * In seconds
+   * The latest active event
+   */
+  lastEventType: Event['type'] | null;
+
+  /**
+   * Whether the user is currently idle
+   */
+  isIdle: boolean;
+
+  /*
+   * Whether the idle beat is currently running
+   */
+  isBeating: boolean;
+}
+
+/**
+ * The configuration for the idle beat instance.
+ * This configuration will be used to create the idle beat instance.
+ * It will also be used to emit the idle and active events.
+ */
+export interface Config {
+  id?: string; // Instance id. For identify the instance purpose
+
+  /**
+   * The default event names to emit when idle or active
+   * If not set, will use the default event names
+   * If set, will use the custom event names
+   */
+  idleEventName?: string;
+  activeEventName?: string;
+
+  /**
+   * The interval for beating idle time in seconds
+   * If not set, will use the default beat time
    */
   beat?: Seconds;
 
   /**
-   * In milliseconds
+   * The target element to monitor
+   * If not set, will use the default target
    */
-  debounce?: Milliseconds;
+  target?: EventTarget;
+
+  /**
+   * Monitor on what event types (Set active when event been trigger)
+   * If not set, will use the default events
+   */
+  events?: Event['type'][];
 }
 
-export interface Callback {
-  (idleTime: Milliseconds, idleSetting: Seconds): void;
-}
-
-export interface CallbackRecord {
-  // FIXME: should be `ReturnType<typeof window.setTimeout>`
-  timeoutId: number;
-}
-
-export interface BeatCallback {
-  (idleTime: Milliseconds): void;
-}
+/**
+ * Custom event type for active/idle events.
+ * This will be dispatched when the user becomes active/idle.
+ */
+export type IdleBeatEvent = CustomEvent<{
+  state: State;
+  config: Required<Config>;
+}>;
