@@ -8,11 +8,13 @@ import initDefaultIdleBeater from './initDefaultIdleBeater';
 import initCustomizeIdleBeater from './initCustomizeIdleBeater';
 import initIdleBeaterSwitchWatcher from './initIdleBeaterSwitchWatcher';
 
+import writeToTextarea from './utils/writeToTextarea';
 import updateStateInfo from './utils/updateStateInfo';
 
 function main() {
   const idleBeater = initDefaultIdleBeater();
   idleBeater.start();
+  writeToTextarea('default-events-info', 'IdleBeater started\n');
 
   const customizeIdleBeater = initCustomizeIdleBeater();
 

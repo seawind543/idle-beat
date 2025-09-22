@@ -7,7 +7,7 @@ import updateConfigInfo from './utils/updateConfigInfo';
 
 import { DEFAULT_BACKGROUND_COLOR, IDLE_BACKGROUND_COLOR } from './constants';
 
-const IDLE_TIMEOUT = 15; // seconds
+const IDLE_TIMEOUT = 0; // seconds
 
 /**
  * Initialize a customized idleBeater instance
@@ -29,7 +29,7 @@ function initCustomizeIdleBeater() {
   const customizeIdleBeater = idleBeat({
     id: 'customized', // For identify the instance purpose
 
-    beat: 15, // 15 seconds
+    beat: 4, // seconds
     target: monitorTarget || document, // Monitor a specific area or the whole document
     idleEventName: CUSTOMIZE_EVENT_NAMES.IDLE, // Custom event name for idle
     activeEventName: CUSTOMIZE_EVENT_NAMES.ACTIVE, // Custom event name for active

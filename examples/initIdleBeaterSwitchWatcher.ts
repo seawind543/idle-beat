@@ -1,5 +1,6 @@
 /* eslint no-console: 0 */
 
+import writeToTextarea from './utils/writeToTextarea';
 import updateStateInfo from './utils/updateStateInfo';
 import applyCustomizeSettings from './utils/applyCustomizeSettings';
 import type { IdleBeatType } from './types';
@@ -30,8 +31,10 @@ function initIdleBeaterSwitchWatcher(
 
     if (isChecked) {
       idleBeater.start();
+      writeToTextarea('default-events-info', 'IdleBeater started\n');
     } else {
       idleBeater.stop();
+      writeToTextarea('default-events-info', 'IdleBeater stopped\n');
       console.log('idleBeater.stop()');
     }
 
@@ -67,8 +70,10 @@ function initIdleBeaterSwitchWatcher(
       );
 
       customizeIdleBeater.start();
+      writeToTextarea('customized-events-info', 'IdleBeater started\n');
     } else {
       customizeIdleBeater.stop();
+      writeToTextarea('customized-events-info', 'IdleBeater stopped\n');
     }
 
     updateStateInfo(customizeIdleBeater);

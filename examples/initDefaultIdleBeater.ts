@@ -7,7 +7,7 @@ import updateConfigInfo from './utils/updateConfigInfo';
 
 import { DEFAULT_BACKGROUND_COLOR, IDLE_BACKGROUND_COLOR } from './constants';
 
-const IDLE_TIMEOUT = 20; // seconds
+const IDLE_TIMEOUT = 15; // seconds
 
 /**
  * Initialize the default idleBeater instance
