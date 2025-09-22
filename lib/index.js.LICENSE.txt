@@ -1,1 +1,1 @@
-/*! idle-beat v0.5.0 | (c) 2023 Mark Lin. | MIT | https://github.com/seawind543/idle-beat */
+/*! idle-beat v0.5.1 | (c) 2023 Mark Lin. | MIT | https://github.com/seawind543/idle-beat */
